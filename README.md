@@ -6,7 +6,7 @@ Bilberry Technical Exercise for the lead C++ job: Develop a software tool for gr
 - NVIDIA GeForce GTX 1050
 - Windows 10 x64
 
-For compatibility with your own Nvidia GPU reference, check the [CUDA ARCH](https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-cards) of your card and replace the correspondong value in the parseGreen.pro file. 
+For compatibility with your own Nvidia GPU reference, check the [CUDA ARCH](https://medium.com/@patrickorcl/compile-with-nvcc-3566fbdfdbf) of your card and replace the correspondong value in the parseGreen.pro file. 
 
 Make sure you have downloaded the [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) and check that the CUDA_DIR and CUDA_SDK variables in the parseGreen.pro file corresponds to your installation path. 
 
