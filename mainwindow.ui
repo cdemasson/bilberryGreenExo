@@ -45,14 +45,14 @@
        <item>
         <widget class="QPushButton" name="parseButton">
          <property name="text">
-          <string>Parse Green</string>
+          <string>Extract Green</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="cudaButton">
          <property name="text">
-          <string>Parse Green with CUDA</string>
+          <string>Extract Green with CUDA</string>
          </property>
         </widget>
        </item>
