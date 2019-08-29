@@ -11,10 +11,7 @@
 #include <QElapsedTimer>
 
 extern "C"
-double function(void);
-
-extern "C"
-int compareMatrices(int height, int width, int*r, int*g, int*b, int*green);
+void compareMatrices(int height, int width, int*r, int*g, int*b, int*green);
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -40,6 +37,11 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+/**
+ * @brief MainWindow::computeGreenParse
+ * This function extract the green pixels of a picture
+ * The computations runs on the CPU
+ */
 void MainWindow::computeGreenParse()
 {
     QElapsedTimer timer;
@@ -65,6 +67,11 @@ void MainWindow::computeGreenParse()
     ui->resultPic->setPixmap(QPixmap::fromImage(*mParsedPic));
 }
 
+/**
+ * @brief MainWindow::selectPicture
+ * Changes the picture from which we want
+ * to extract the green color
+ */
 void MainWindow::selectPicture()
 {
     QObject* mObj = sender();
@@ -77,14 +84,22 @@ void MainWindow::selectPicture()
     ui->picToParse->setPixmap(QPixmap(picPath));
 }
 
+/**
+ * @brief MainWindow::computeGreenWithCuda
+ * This function extract the green pixels of a picture
+ * The computations runs on the GPU
+ */
 void MainWindow::computeGreenWithCuda()
 {
     const QSize picSize = mPicToParse->size();
     int w = picSize.width();
     int h = picSize.height();
+
+    //The RGB values are stored in 3 1-dimension arrays
     int *arrR = static_cast<int *>(malloc(h * w * sizeof(int *)));
     int *arrG = static_cast<int *>(malloc(h * w * sizeof(int *)));
     int *arrB = static_cast<int *>(malloc(h * w * sizeof(int *)));
+    //this array will contain the result given by the CUDA kernel
     int *arrResult = static_cast<int *>(malloc(h * w * sizeof(int *)));
 
     for(int i = 0; i < h; i++)
@@ -100,10 +115,10 @@ void MainWindow::computeGreenWithCuda()
     QElapsedTimer timer;
     timer.start();
 
-    int result = 0;
-    result = compareMatrices(h, w, arrR, arrG, arrB, arrResult);
+    //The green extraction is computed by the CUDA kernel
+    compareMatrices(h, w, arrR, arrG, arrB, arrResult);
 
-    //then create the result QImage from arrResult
+    //The result picture is created from the array returned by the CUDA function
     for(int i = 0; i < h; i++)
     {
         for(int j = 0; j < w; j++)
